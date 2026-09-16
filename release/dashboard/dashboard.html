@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quire — Newsletter Hub</title>
+  <link rel="stylesheet" href="../js/tokens.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="../icons/icon48.png" alt="" width="24" height="24" />
+        <span>Quire</span>
+      </div>
+
+      <nav class="nav" aria-label="Sections">
+        <button class="nav-item is-active" data-view="dashboard">
+          <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M2 9h4v5H2zM6.5 2h3v12h-3zM11 6h3v8h-3z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+          Dashboard
+        </button>
+        <button class="nav-item" data-view="subscriptions">
+          <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M2.5 3.5h11v9a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1v-9Z" stroke="currentColor" stroke-width="1.2"/><path d="M5 6.5h6M5 9h6M5 11.5h3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+          Subscriptions
+        </button>
+        <button class="nav-item" data-view="collections">
+          <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M2 5.5 8 2l6 3.5-6 3.5-6-3.5Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M2 9.5 8 13l6-3.5" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+          Collections
+        </button>
+        <button class="nav-item" data-view="reading">
+          <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M8 4C6.5 3 4 2.7 2.5 3.2v9C4 11.7 6.5 12 8 13c1.5-1 4-1.3 5.5-.8v-9C12 2.7 9.5 3 8 4Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 4v9" stroke="currentColor" stroke-width="1.1"/></svg>
+          Reading List
+        </button>
+        <button class="nav-item" data-view="favorites">
+          <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M8 13.3 3.5 10.6C1.7 9.5 1.5 6.9 3.2 5.6c1.2-.9 2.9-.6 3.8.6L8 7.4l1-1.2c.9-1.2 2.6-1.5 3.8-.6 1.7 1.3 1.5 3.9-.3 5L8 13.3Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+          Favorites
+        </button>
+        <button class="nav-item" data-view="insights">
+          <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M2.5 13.5V6M7 13.5V2.5M11.5 13.5V8.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          Insights
+        </button>
+        <button class="nav-item" data-view="settings">
+          <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2.1" stroke="currentColor" stroke-width="1.2"/><path d="M8 2.5v1.3M8 12.2v1.3M13.5 8h-1.3M3.8 8H2.5M11.7 4.3l-.9.9M5.2 10.8l-.9.9M11.7 11.7l-.9-.9M5.2 5.2l-.9-.9" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+          Settings
+        </button>
+      </nav>
+
+      <div class="sidebar-footer" id="dataSourceBadge">
+        <span class="dot"></span>
+        <span class="label">Sample data</span>
+      </div>
+    </aside>
+
+    <main class="content">
+      <!-- Dashboard -->
+      <section class="view" id="view-dashboard" data-title="Dashboard">
+        <div class="banner" id="dataUnavailableBanner" hidden>
+          <span>Live Substack data isn't available right now, so you're viewing sample data. Open a Substack tab and try Sync in Settings.</span>
+        </div>
+
+        <div class="stat-strip large" id="dashStats"></div>
+
+        <div class="two-col">
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Recently added</h2>
+            </div>
+            <ul class="row-list" id="recentlyAdded"></ul>
+          </div>
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Recent activity</h2>
+            </div>
+            <ul class="activity-list" id="activityList"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Subscriptions -->
+      <section class="view" id="view-subscriptions" data-title="Subscriptions" hidden>
+        <div class="toolbar">
+          <input type="search" id="subSearch" placeholder="Search subscriptions…" aria-label="Search subscriptions" />
+          <select id="subFilterStatus" aria-label="Filter by status">
+            <option value="">All statuses</option>
+            <option value="free">Free</option>
+            <option value="paid">Paid</option>
+          </select>
+          <select id="subFilterCollection" aria-label="Filter by collection">
+            <option value="">All collections</option>
+          </select>
+          <select id="subSort" aria-label="Sort">
+            <option value="name">Sort: Name</option>
+            <option value="recent">Sort: Last activity</option>
+            <option value="subscribed">Sort: Subscribed date</option>
+          </select>
+        </div>
+        <div class="table-head">
+          <span>Newsletter</span>
+          <span>Category</span>
+          <span>Status</span>
+          <span>Collection</span>
+          <span>Last activity</span>
+          <span></span>
+        </div>
+        <ul class="row-list roomy" id="subscriptionList"></ul>
+        <p class="empty-state" id="subEmptyState" hidden></p>
+      </section>
+
+      <!-- Collections -->
+      <section class="view" id="view-collections" data-title="Collections" hidden>
+        <div class="toolbar">
+          <input type="text" id="newCollectionName" placeholder="New collection name…" aria-label="New collection name" />
+          <button class="btn btn-primary" id="addCollectionBtn">Add collection</button>
+        </div>
+        <div class="collection-grid" id="collectionGrid"></div>
+
+        <div class="panel" id="collectionDetailPanel" hidden>
+          <div class="panel-head">
+            <h2 id="collectionDetailName">Collection</h2>
+            <button class="btn btn-ghost" id="closeCollectionDetail">Close</button>
+          </div>
+          <ul class="row-list roomy" id="collectionDetailList"></ul>
+        </div>
+      </section>
+
+      <!-- Reading List -->
+      <section class="view" id="view-reading" data-title="Reading List" hidden>
+        <div class="toolbar">
+          <input type="search" id="readingSearch" placeholder="Search articles…" aria-label="Search articles" />
+          <select id="readingFilter" aria-label="Filter reading list">
+            <option value="all">All</option>
+            <option value="unread">Unread</option>
+            <option value="read">Read</option>
+          </select>
+        </div>
+        <ul class="article-list" id="readingListEl"></ul>
+        <p class="empty-state" id="readingEmptyState" hidden></p>
+      </section>
+
+      <!-- Favorites -->
+      <section class="view" id="view-favorites" data-title="Favorites" hidden>
+        <input type="search" id="favSearch" placeholder="Search favorites…" aria-label="Search favorites" class="standalone-search" />
+        <div class="panel">
+          <div class="panel-head"><h2>Favorite newsletters</h2></div>
+          <ul class="row-list roomy" id="favNewsletterList"></ul>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>Favorite articles</h2></div>
+          <ul class="article-list" id="favArticleList"></ul>
+        </div>
+        <p class="empty-state" id="favEmptyState" hidden></p>
+      </section>
+
+      <!-- Insights -->
+      <section class="view" id="view-insights" data-title="Insights" hidden>
+        <div class="stat-strip large" id="insightStats"></div>
+
+        <div class="two-col">
+          <div class="panel">
+            <div class="panel-head"><h2>Free vs. paid</h2></div>
+            <div class="bar-chart" id="freeVsPaidChart"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Category distribution</h2></div>
+            <div class="bar-chart" id="categoryChart"></div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <div class="panel-head"><h2>Most active newsletters</h2></div>
+            <ul class="rank-list" id="mostActiveList"></ul>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Least active newsletters</h2></div>
+            <ul class="rank-list" id="leastActiveList"></ul>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h2>Subscription growth</h2></div>
+          <div class="growth-chart" id="growthChart"></div>
+        </div>
+      </section>
+
+      <!-- Settings -->
+      <section class="view" id="view-settings" data-title="Settings" hidden>
+        <div class="panel narrow">
+          <div class="panel-head"><h2>Appearance</h2></div>
+          <div class="settings-row">
+            <span>Theme</span>
+            <div class="segmented" id="themeSegmented">
+              <button data-theme="light">Light</button>
+              <button data-theme="dark">Dark</button>
+              <button data-theme="system">System</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel narrow">
+          <div class="panel-head"><h2>Notifications</h2></div>
+          <div class="settings-row">
+            <span>New issue alerts</span>
+            <label class="switch">
+              <input type="checkbox" id="notificationsToggle" />
+              <span class="switch-track"><span class="switch-thumb"></span></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="panel narrow">
+          <div class="panel-head"><h2>Substack data</h2></div>
+          <p class="panel-note" id="syncStatusNote">You're viewing sample data.</p>
+          <div class="settings-actions">
+            <button class="btn btn-primary" id="syncNowBtn">Sync from open Substack tabs</button>
+          </div>
+        </div>
+
+        <div class="panel narrow">
+          <div class="panel-head"><h2>Backup</h2></div>
+          <p class="panel-note">Export everything to a JSON file, or restore from a previous export.</p>
+          <div class="settings-actions">
+            <button class="btn" id="exportJsonBtn">Export JSON</button>
+            <button class="btn" id="exportCsvBtn">Export subscriptions as CSV</button>
+            <button class="btn" id="importJsonBtn">Import JSON</button>
+            <input type="file" id="importFileInput" accept="application/json" class="visually-hidden" />
+          </div>
+          <p class="panel-note" id="importStatusNote" role="status"></p>
+        </div>
+
+        <div class="panel narrow">
+          <div class="panel-head"><h2>Privacy</h2></div>
+          <p class="panel-note">
+            Quire stores everything locally in your browser using chrome.storage.local. Nothing you
+            subscribe to, favorite, or save is sent to any external server. When live data retrieval
+            runs, it only reads what's already visible on Substack pages you have open — Quire never
+            asks for or handles your Substack password.
+          </p>
+        </div>
+
+        <div class="panel narrow">
+          <div class="panel-head"><h2>About</h2></div>
+          <p class="panel-note">Quire — Newsletter Hub, version 1.0.0. An independent tool for organizing your Substack reading. Not affiliated with Substack Inc.</p>
+          <div class="settings-actions">
+            <button class="btn btn-danger" id="resetDataBtn">Reset to sample data</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script type="module" src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "Quire — Newsletter Hub",
+  "short_name": "Quire",
+  "version": "1.0.0",
+  "description": "A calm, private home for your Substack reading — subscriptions, collections, a reading list and simple insights, all stored on your device.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background/background.js",
+    "type": "module"
+  },
+  "permissions": ["storage", "tabs"],
+  "host_permissions": [
+    "https://substack.com/*",
+    "https://*.substack.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://substack.com/*", "https://*.substack.com/*"],
+      "js": ["content/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "options_page": "dashboard/dashboard.html",
+  "minimum_chrome_version": "110"
+}
